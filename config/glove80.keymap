@@ -35,18 +35,24 @@
              ╰────────────┴────────────╯                         ╰────────────┴────────────╯
  */
 
-#define THUMB_L LH5 LH4 LH3 LH2 LH1 LH0
-#define THUMB_R RH3 RH4 RH5 RH0 RH1 RH2
+#define THUMB_L LH5 
+#define THUMB_R RH2
 
-ZMK_BEHAVIOR(hrm, hold_tap,
-    flavor = "balanced";
-    tapping-term-ms = <280>;
-    quick-tap-ms = <125>;
-    bindings = <&kp>, <&kp>;
-)
-
-
-/ {
+//ZMK_BEHAVIOR(hrm, hold_tap,
+//    flavor = "balanced";
+//    tapping-term-ms = <280>;
+//    quick-tap-ms = <125>;
+//    bindings = <&kp>, <&kp>;
+//)
+//
+//ZMK_BEHAVIOR(ss_paren_l, tap_dance,
+//    tapping-term-ms = <200>;
+//    bindings = <&sk LSHFT>, <&LPAR>)
+//
+//ZMK_BEHAVIOR(ss_paren_r, tap_dance,
+//    tapping-term-ms = <200>;
+//    bindings = <&sk RSHFT>, <&LPAR>)
+ {
     behaviors {
         // For the "layer" key, it'd nice to be able to use it as either a shift or a toggle.
         // Configure it as a tap dance, so the first tap (or hold) is a &mo and the second tap is a &to
@@ -58,6 +64,22 @@ ZMK_BEHAVIOR(hrm, hold_tap,
             bindings = <&mo LOWER>, <&to LOWER>;
         };
 
+        lshft_t: tap_dance_1 {
+            compatible = "zmk,behavior-tap-dance";
+            label = "LSHFT_TAP_DANCE";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&sk LSHFT>, <&kp LPAR>;
+        };
+
+        rshft_t: tap_dance_2 {
+            compatible = "zmk,behavior-tap-dance";
+            label = "RSHFT_TAP_DANCE";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&sk RSHFT>, <&kp RPAR>;
+        };
+
         magic: magic_hold_tap {
             compatible = "zmk,behavior-hold-tap";
             label = "MAGIC_HOLD_TAP";
@@ -66,6 +88,36 @@ ZMK_BEHAVIOR(hrm, hold_tap,
             tapping-term-ms = <200>;
             bindings = <&mo>, <&rgb_ug_status_macro>;
         };
+        ctrl_z: hold_tap_0 {
+    compatible = "zmk,behavior-hold-tap";
+    #binding-cells = <2>;
+    flavor = "tap-preferred";
+    tapping-term-ms = <200>;
+    quick-tap-ms = <200>;
+    //hold-while-undecided = true;
+    //require-prior-idle-ms = <125>;
+    bindings = <&kp Z>, <&sk LCTRL>;
+};
+        alt_x: hold_tap_1 {
+    compatible = "zmk,behavior-hold-tap";
+    #binding-cells = <2>;
+    flavor = "tap-preferred";
+    tapping-term-ms = <200>;
+    quick-tap-ms = <200>;
+    //hold-while-undecided = true;
+    //require-prior-idle-ms = <125>;
+    bindings = <&kp X>, <&sk LGUI>;
+};
+        ctrl_o: hold_tap_2 {
+    compatible = "zmk,behavior-hold-tap";
+    #binding-cells = <2>;
+    flavor = "tap-preferred";
+    tapping-term-ms = <200>;
+    quick-tap-ms = <200>;
+    //hold-while-undecided = true;
+    //require-prior-idle-ms = <125>;
+    bindings = <&kp O>, <&sk LCTRL>;
+};
     };
 
     macros {
@@ -131,8 +183,8 @@ ZMK_BEHAVIOR(hrm, hold_tap,
             &kp EQUAL      &kp N1   &kp N2      &kp N3      &kp N4      &kp N5                                                                     &kp N6  &kp N7  &kp N8      &kp N9      &kp N0      &kp MINUS
             &kp TAB        &kp Q    &kp W       &kp E       &kp R       &kp T                                                                      &kp Y   &kp U   &kp I       &kp O       &kp P       &kp BSLH
             &kp ESC        &kp A    &kp S       &kp D       &kp F       &kp G                                                                      &kp H   &kp J   &kp K       &kp L       &kp SEMI    &kp SQT
-            &kp GRAVE      &kp Z    &kp X       &kp C       &kp V       &kp B   &kp LSHFT   &kp LCTRL   &layer_td  &kp LGUI  &kp RCTRL &kp RSHFT   &kp N   &kp M   &kp COMMA   &kp DOT     &kp FSLH    &kp PG_UP
-            &magic MAGIC 0 &kp HOME &kp END     &kp LEFT    &kp RIGHT           &kp BSPC    &kp DEL     &kp LALT   &kp RALT  &kp RET   &kp SPACE           &kp UP  &kp DOWN    &kp LBKT    &kp RBKT    &kp PG_DN
+            &kp GRAVE      &kp Z    &kp X       &kp C       &kp V       &kp B   &kp LEFT   &kp RIGHT   &layer_td  &kp ESC  &kp DOWN &kp UP   &kp N   &kp M   &kp COMMA   &kp DOT     &kp FSLH    &kp PG_UP
+            &magic MAGIC 0 &kp HOME &kp END     &kp LEFT    &kp RIGHT           &lshift_t     &kp DEL     &kp TAB   &kp RET  &kp SPACE   &rshft_t           &kp UP  &kp DOWN    &kp LBKT    &kp RBKT    &kp PG_DN
             >;
         };
 
